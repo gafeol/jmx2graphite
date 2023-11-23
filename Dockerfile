@@ -5,7 +5,7 @@ COPY pom.xml /workspace
 COPY src /workspace/src
 RUN mvn -B -f pom.xml clean package -DskipTests
 
-FROM --platform=linux/arm64/v8 openjdk:8u121-alpine
+FROM --platform=linux/arm64/v8 arm64v8/openjdk:8u121-alpine
 
 MAINTAINER Asaf Mesika <amesika@logz.io>
 
