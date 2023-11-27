@@ -114,10 +114,12 @@ public class JolokiaClient extends MBeanClient {
                 Map<String, Number> metricToValue = flatten(attrValues);
                 for (String attrMetricName : metricToValue.keySet()) {
                     try {
+                        String sanitizedMetricName = GraphiteClient.sanitizeMetricName(mbeanName, /*keepDot*/ true) + "." + attrMetricName;
                         metricValues.add(new MetricValue(
-                                GraphiteClient.sanitizeMetricName(mbeanName, /*keepDot*/ true) + "." + attrMetricName,
+                                sanitizedMetricName,
                                 metricToValue.get(attrMetricName),
                                 metricTime));
+                        logger.debug("Metric {} value {} time {}", sanitizedMetricName, metricToValue.get(attrMetricName), metricTime);
                     } catch (IllegalArgumentException e) {
                         logger.info("Can't sent Metric since it's invalid: "+e.getMessage());
                     }

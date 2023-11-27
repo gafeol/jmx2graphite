@@ -85,10 +85,12 @@ public class JavaAgentClient extends MBeanClient {
 
                 for (String attrMetricName : metricToValue.keySet()) {
                     try {
+                        String sanitizedMetricName = GraphiteClient.sanitizeMetricName(metricBean.getName(), /*keepDot*/ true) + "." + attrMetricName;
                         metricValues.add(new MetricValue(
-                                GraphiteClient.sanitizeMetricName(metricBean.getName(), /*keepDot*/ true) + "." + attrMetricName,
+                                sanitizedMetricName,
                                 metricToValue.get(attrMetricName),
                                 metricTime));
+                        logger.debug("Metric {} value {} time {}", sanitizedMetricName, metricToValue.get(attrMetricName), metricTime);
                     } catch (IllegalArgumentException e) {
                         logger.info("Failed converting metric name to Graphite-friendly name: metricsBean.getName = {}, attrMetricName = {}", metricBean.getName(), attrMetricName, e);
                     }

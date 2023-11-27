@@ -83,7 +83,8 @@ public class MetricsPipeline {
             List<MetricValue> metrics = poll();
             Stopwatch sw = Stopwatch.createStarted();
             sendToGraphite(metrics);
-            logger.info("metrics sent to Graphite. Time: {} ms, Failed metrics: {}",
+            logger.info("{} metrics sent to Graphite. Time: {} ms, Failed metrics: {}",
+                    metrics.size(),
                     sw.stop().elapsed(TimeUnit.MILLISECONDS),
                     graphiteClient.getFailedAtLastWrite());
 
